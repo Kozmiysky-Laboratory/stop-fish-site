@@ -32,15 +32,17 @@
                 <h2>Вход</h2>
 
                 <label for="email">Email адрес:</label>
-                <input type="email" id="email" required placeholder="example@example.ru">
+                <input type="email" id="email" name="email" required placeholder="example@example.ru">
 
                 <label for="password">Пароль:</label>
-                <input type="password" id="password" required placeholder="Введите ваш пароль">
+                <input type="password" id="password" name="password" required placeholder="Введите ваш пароль">
 
                 <button type="submit" class="main-cta-button">Войти</button>
-                
+
+                <p class="form-message" id="formMessage" role="alert"></p>
+
                 <p class="form-footer-text">
-                    Еще нет аккаунта? <a href="https://kozmiysky-laboratory.github.io/stop-fish/registration.html">Зарегистрироваться</a>
+                    Еще нет аккаунта? <a href="registration.html">Зарегистрироваться</a>
                 </p>
             </form>
         </section>
@@ -51,12 +53,32 @@
         <small>© Stop Fish | Ваш проводник в мире цифровой безопасности</small>
     </footer>
 
+    <script src="js/auth.js"></script>
     <script>
-        // Простое подтверждение отправки формы
         const form = document.getElementById("loginForm");
-        form.addEventListener("submit", function(event) {
+        const messageEl = document.getElementById("formMessage");
+        const submitButton = form.querySelector("button[type='submit']");
+
+        form.addEventListener("submit", async function (event) {
             event.preventDefault();
-            alert("Вы успешно вошли!");
+            messageEl.textContent = "";
+            messageEl.classList.remove("is-error", "is-success");
+            submitButton.disabled = true;
+
+            try {
+                await window.authApi.login({
+                    email: form.email.value.trim(),
+                    password: form.password.value,
+                });
+                messageEl.textContent = "Вы успешно вошли! Перенаправляем…";
+                messageEl.classList.add("is-success");
+                window.location.href = "index.html";
+            } catch (err) {
+                messageEl.textContent = err.message;
+                messageEl.classList.add("is-error");
+            } finally {
+                submitButton.disabled = false;
+            }
         });
     </script>
 </body>
