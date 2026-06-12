@@ -201,3 +201,19 @@ footer {
         margin-top: 10px;
     }
 }
+
+/* Сообщения формы (ошибки/успех) для входа и регистрации */
+.form-message {
+    min-height: 1.2em;
+    margin: 12px 0 0;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.form-message.is-error {
+    color: #ff6b6b;
+}
+
+.form-message.is-success {
+    color: #51cf66;
+}
