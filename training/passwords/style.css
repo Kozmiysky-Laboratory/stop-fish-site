@@ -114,19 +114,6 @@ nav a {
     margin-left: 20px;
 }
 
-.password-input-area input {
-    width: 100%;
-    max-width: 1136px;
-    padding: 12px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #e0e0e0;
-    color: #1a1a2e;
-    font-size: 1em;
-}
-
 .strength-bar {
     background-color: #ddd;
     border-radius: 5px;
@@ -147,18 +134,6 @@ footer {
     background-color: #1a1a2e;
     border-top: 1px solid #0f3460;
 }
-
-.back-link {
-    color: #ff5722;
-    text-decoration: none;
-    margin-bottom: 20px;
-    display: inline-block;
-}
-
-.trainer-body main {
-    padding-top: 20px;
-}
-
 
 .back-link {
     color: #ff5722;
