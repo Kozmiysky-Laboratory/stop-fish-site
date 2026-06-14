@@ -263,7 +263,10 @@
         </div>
     </div>
 
+    <script src="../../js/utils.js"></script>
     <script>
+        // shuffleArray is loaded from ../../js/utils.js
+
         // Исходные вопросы (первые 3 из первоначального кода)
         const originalScenarios = [
             {
@@ -297,15 +300,6 @@
                 explanation: "Правильно! Карту нужно блокировать немедленно через приложение банка или по телефону горячей линии. Чем быстрее вы отреагируете, тем больше шансов предотвратить потерю средств."
             }
         ];
-
-        // Функция для перемешивания массива (алгоритм Фишера-Йетса)
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
 
         // Функция для подготовки вопросов к игре
         function prepareScenarios() {
