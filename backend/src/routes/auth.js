@@ -75,7 +75,7 @@ router.post("/logout", (req, res, next) => {
   if (!req.session) {
     return res.status(204).end();
   }
-  req.session.destroy((err) => {
+  return req.session.destroy((err) => {
     if (err) {
       return next(err);
     }
@@ -84,12 +84,16 @@ router.post("/logout", (req, res, next) => {
   });
 });
 
-router.get("/me", requireAuth, (req, res) => {
-  const user = getUserById(req.session.userId);
-  if (!user) {
-    return res.status(401).json({ error: "Требуется авторизация" });
+router.get("/me", requireAuth, (req, res, next) => {
+  try {
+    const user = getUserById(req.session.userId);
+    if (!user) {
+      return res.status(401).json({ error: "Требуется авторизация" });
+    }
+    return res.json({ user: publicUser(user) });
+  } catch (err) {
+    return next(err);
   }
-  return res.json({ user: publicUser(user) });
 });
 
 export default router;
