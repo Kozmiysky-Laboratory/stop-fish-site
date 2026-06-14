@@ -30,9 +30,15 @@ export function createUser({ fullName, email, passwordHash }) {
 }
 
 export function getUserByEmail(email) {
-  return db.prepare("SELECT * FROM users WHERE email = ?").get(email);
+  return db
+    .prepare(
+      "SELECT id, full_name, email, password_hash, created_at FROM users WHERE email = ?"
+    )
+    .get(email);
 }
 
 export function getUserById(id) {
-  return db.prepare("SELECT * FROM users WHERE id = ?").get(id);
+  return db
+    .prepare("SELECT id, full_name, email, created_at FROM users WHERE id = ?")
+    .get(id);
 }

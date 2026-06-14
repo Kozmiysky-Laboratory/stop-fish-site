@@ -4,8 +4,14 @@ dotenv.config();
 
 const isProduction = process.env.NODE_ENV === "production";
 
-if (isProduction && !process.env.SESSION_SECRET) {
-  throw new Error("SESSION_SECRET must be set in production");
+if (!process.env.SESSION_SECRET) {
+  if (isProduction) {
+    throw new Error("SESSION_SECRET must be set in production");
+  }
+  console.warn(
+    "WARNING: SESSION_SECRET is not set — using an insecure default. " +
+      "Set SESSION_SECRET in your .env file before deploying."
+  );
 }
 
 export const config = {

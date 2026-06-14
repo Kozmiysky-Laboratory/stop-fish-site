@@ -4,6 +4,8 @@ import express from "express";
 import session from "express-session";
 import betterSqlite3SessionStore from "better-sqlite3-session-store";
 import cors from "cors";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import { config } from "./config.js";
 import { db } from "./db.js";
 import authRouter from "./routes/auth.js";
@@ -15,8 +17,9 @@ export function createApp() {
   const app = express();
 
   app.set("trust proxy", 1);
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+  app.use(helmet());
+  app.use(express.json({ limit: "1mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 
   app.use(
     cors({
@@ -53,7 +56,15 @@ export function createApp() {
     res.json({ status: "ok" });
   });
 
-  app.use("/api/auth", authRouter);
+  const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 30,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Слишком много запросов, попробуйте позже" },
+  });
+
+  app.use("/api/auth", authLimiter, authRouter);
 
   // Serve the static frontend so the whole site can run same-origin in dev.
   const frontendDir = path.resolve(__dirname, "../..");
