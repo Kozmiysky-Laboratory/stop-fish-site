@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     } else {
-        console.log("Password trainer elements not found. This might be the main index page.");
+        console.warn("Password trainer: required DOM elements not found (#passwordInput, #strengthIndicator, #strengthText, or #togglePassword).");
     }
 
 

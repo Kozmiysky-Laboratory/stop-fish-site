@@ -76,9 +76,13 @@ export function createApp() {
   });
 
   // Centralized error handler.
-  app.use((err, _req, res, _next) => {
+  app.use((err, _req, res, next) => {
     console.error(err);
-    res.status(500).json({ error: "Внутренняя ошибка сервера" });
+    if (res.headersSent) {
+      return next(err);
+    }
+    const status = typeof err.status === "number" && err.status >= 400 ? err.status : 500;
+    return res.status(status).json({ error: "Внутренняя ошибка сервера" });
   });
 
   return app;
